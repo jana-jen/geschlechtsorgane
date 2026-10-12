@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bio-Lernapp Geschlechtsorgane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf8f3; --ink:#4a4358; --soft:#857c96; --line:#ece2d8;
+  --pink:#fbd3e0; --pinkD:#c95f88;
+  --sky:#cfe6f8; --skyD:#4a86bd;
+  --lav:#e3d7fa; --lavD:#8466c4;
+  --mint:#d2f0e0; --mintD:#3a9468;
+  --peach:#ffe0c9; --peachD:#cf7a3c;
+  --lemon:#fff3c2;
+  --ok:#c9efd8; --okD:#2f8a5b; --bad:#ffd6d6; --badD:#c64848;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Patrick Hand","Comic Sans MS","Segoe Print",cursive;font-size:21px;line-height:1.45;color:var(--ink);
+  background:var(--bg);background-image:radial-gradient(#e9ddd2 1.2px,transparent 1.2px);background-size:26px 26px;min-height:100vh}
+h1,h2,h3{font-family:"Caveat","Patrick Hand",cursive;font-weight:700;line-height:1.1;margin:0}
+b{font-weight:normal;background:linear-gradient(transparent 58%,rgba(255,224,130,.75) 58%);padding:0 2px}
+header{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 18px;
+  background:rgba(253,248,243,.93);backdrop-filter:blur(6px);border-bottom:2px dashed var(--line)}
+.logo{font-family:Caveat,cursive;font-size:30px;font-weight:700;cursor:pointer}
+#hi{font-size:19px;color:var(--soft);text-align:right}
+main{max-width:1040px;margin:0 auto;padding:18px 16px 60px}
+.card{background:#fff;border-radius:22px;padding:22px 24px;border:2px solid #f1e8df;margin-bottom:18px;
+  box-shadow:0 4px 0 rgba(74,67,88,.07),0 10px 28px rgba(74,67,88,.06)}
+.hero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:linear-gradient(135deg,var(--pink),var(--lav) 55%,var(--sky));border:none}
+.kicker{display:inline-block;background:rgba(255,255,255,.65);border-radius:99px;padding:1px 12px;font-size:17px}
+.hero h1{font-size:50px;margin:8px 0}
+.hero p{margin:0 0 12px}
+.namebox input{font:inherit;border:2px dashed #a996d0;border-radius:12px;padding:3px 10px;background:rgba(255,255,255,.8);width:190px;color:var(--ink)}
+.scorebox{background:rgba(255,255,255,.8);border-radius:20px;padding:14px 22px;text-align:center;transform:rotate(2deg);min-width:170px}
+.scorebox .big{font-family:Caveat,cursive;font-size:60px;font-weight:700;line-height:1}
+.rank{margin-top:4px;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:20px}
+.cat{background:var(--c);border-color:transparent;margin:0;display:flex;flex-direction:column}
+.cat:nth-child(odd){transform:rotate(-.6deg)} .cat:nth-child(even){transform:rotate(.6deg)}
+.cat-ic{font-size:42px;line-height:1}
+.cat h2{font-size:34px;margin-top:4px}
+.cat p{margin:6px 0 10px;flex:1}
+.bar{height:12px;background:rgba(255,255,255,.7);border-radius:99px;overflow:hidden;margin:4px 0}
+.bar div{height:100%;background:var(--d);border-radius:99px;transition:width .5s}
+.small{font-size:17px;color:var(--soft)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+.btn{font:inherit;font-size:20px;border:none;border-radius:14px;padding:7px 18px;background:var(--d,var(--lavD));color:#fff;cursor:pointer;
+  box-shadow:0 3px 0 rgba(0,0,0,.16);transition:transform .1s}
+.btn:hover{transform:translateY(-1px)} .btn:active{transform:translateY(2px);box-shadow:none}
+.btn.alt{background:#fff;color:var(--d,var(--ink));border:2px solid var(--d,var(--line))}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.link{font:inherit;font-size:17px;background:none;border:none;color:var(--soft);text-decoration:underline;cursor:pointer}
+.legend h3{font-size:30px;margin-bottom:8px}
+.afbrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.afbrow div{border-radius:14px;padding:10px 14px}
+.afb{display:inline-block;border-radius:99px;padding:1px 12px;font-size:17px}
+.afb1,.afbrow .a1{background:var(--mint)} .afb2,.afbrow .a2{background:var(--lemon)} .afb3,.afbrow .a3{background:var(--pink)}
+/* topbar */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.pill{background:var(--c,var(--lav));border-radius:99px;padding:3px 14px;font-size:18px}
+/* learn */
+.learn,.task,.result{border-top:10px solid var(--c)}
+.learn h2,.task h2.q{font-size:38px;margin:4px 0 12px}
+.task h2.q{font-family:"Patrick Hand",cursive;font-size:25px;font-weight:normal;line-height:1.35}
+.dots{display:flex;gap:6px;margin-bottom:8px}
+.dots span{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.dots span.done{background:var(--c)} .dots span.on{background:var(--d);transform:scale(1.25)}
+.content ul{padding-left:22px;margin:8px 0} .content li{margin-bottom:6px}
+.content p{margin:8px 0}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:12px 0}
+.box{background:var(--c);border-radius:16px;padding:12px 16px}
+.box h3{font-size:28px}
+.tip,.merke{border-radius:14px;padding:10px 16px;margin:12px 0}
+.tip{background:var(--sky)} .merke{background:var(--lemon);border:2px dashed #e0c55a;transform:rotate(-.5deg)}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:19px}
+table.cmp th{font-family:Caveat,cursive;font-size:26px;text-align:left;padding:2px 10px}
+table.cmp td{background:#faf5ef;padding:6px 10px}
+table.cmp td:first-child{border-radius:10px 0 0 10px} table.cmp td:last-child{border-radius:0 10px 10px 0}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+/* diagrams */
+.diag-wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start;margin:8px 0}
+.svgbox{background:#fffdfa;border:2px dashed var(--line);border-radius:18px;padding:8px}
+.svgbox svg{width:100%;height:auto;display:block}
+.tube{fill:none;stroke:#f0a4ba;stroke-width:9;stroke-linecap:round}
+.fimb{fill:none;stroke:#f0a4ba;stroke-width:4;stroke-linecap:round}
+.svglab{font:15px "Patrick Hand",cursive;fill:#a08e55;text-anchor:middle}
+.svglab2{font:15px "Patrick Hand",cursive;fill:#6c6380;text-anchor:middle}
+.hs{cursor:pointer}
+.hs line{stroke:#8d82a3;stroke-width:1.6;stroke-dasharray:4 3}
+.hs .dot{fill:#4a4358}
+.hs .num{fill:#fff;stroke:#8466c4;stroke-width:2.5;transition:fill .2s}
+.hs text{font:700 18px "Patrick Hand",cursive;text-anchor:middle;fill:#4a4358;pointer-events:none}
+.hs:hover .num{fill:#f3edff}
+.hs.seen .num{fill:#e3d7fa} .hs.active .num{fill:#8466c4} .hs.active text{fill:#fff}
+.hs-info{background:var(--c);border-radius:18px;padding:14px 18px;min-height:180px}
+.hsname{font-family:Caveat,cursive;font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px}
+.num{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:50%;background:#fff;border:2px solid var(--lavD);font-family:"Patrick Hand",cursive;font-size:19px;font-weight:normal}
+.found{font-size:17px;color:var(--soft);margin-top:8px}
+.cyc{display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:center;margin:8px 0}
+.ring{width:220px;height:220px;border-radius:50%;position:relative;
+  background:conic-gradient(#f7a8b8 0 64deg,#ffd8be 64deg 167deg,#fff0a8 167deg 193deg,#d9c8f5 193deg 360deg)}
+.ring .hole{position:absolute;inset:42px;background:#fff;border-radius:50%;display:grid;place-content:center;text-align:center}
+.ring .hole b{font-family:Caveat,cursive;font-size:40px;background:none}
+.ring .t1{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:16px;white-space:nowrap}
+.leg{list-style:none;padding:0;margin:0}
+.leg li{margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.leg i{flex:0 0 22px;height:22px;border-radius:6px;margin-top:4px}
+/* tasks */
+.task-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type{font-size:17px;color:var(--soft)}
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 6px}
+.progress div{height:100%;background:var(--d)}
+.howto{font-size:18px;color:var(--soft);margin:0 0 10px}
+.opts{display:grid;gap:10px}
+.opt,.mi,.tfb button,.sb button{font:inherit;font-size:20px;text-align:left;background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 14px;cursor:pointer;color:var(--ink);transition:background .15s,border-color .15s}
+.opt:hover:not(:disabled),.mi:hover:not(:disabled){border-color:var(--lavD)}
+.opt .let{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--lav);margin-right:10px}
+.sel{border-color:var(--lavD)!important;background:#f4efff!important}
+.ok{background:var(--ok)!important;border-color:var(--okD)!important}
+.bad{background:var(--bad)!important;border-color:var(--badD)!important}
+button:disabled{cursor:default}
+.checkrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
+.hint{color:var(--badD);font-size:18px}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+.explain{background:var(--sky);border-radius:14px;padding:10px 16px;margin-top:14px}
+.tfrow,.srow{border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin-bottom:10px;background:#fff}
+.tfrow .st,.srow .st{margin-bottom:6px}
+.tfb,.sb{display:flex;flex-wrap:wrap;gap:8px}
+.tfb button,.sb button{padding:4px 14px;font-size:18px}
+.ex{font-size:18px;margin-top:4px}
+.match{display:grid;grid-template-columns:1fr 1.4fr;gap:14px}
+.col{display:grid;gap:10px;align-content:start}
+.mi{display:flex;align-items:center;gap:8px;font-size:19px}
+.mi .tag{display:inline-grid;place-items:center;min-width:28px;height:28px;border-radius:50%;background:var(--line);font-style:normal;font-size:16px}
+.mi[data-c="0"]{background:#ffe1ea} .mi[data-c="1"]{background:#dcecfb} .mi[data-c="2"]{background:#ddf4e6}
+.mi[data-c="3"]{background:#fff2c4} .mi[data-c="4"]{background:#ece2ff} .mi[data-c="5"]{background:#ffe5d2} .mi[data-c="6"]{background:#d8f3f3}
+.bank{background:var(--peach);border-radius:14px;padding:8px 14px;margin-bottom:12px}
+.bank span{display:inline-block;background:#fff;border-radius:10px;padding:0 10px;margin:3px}
+.gaptext{line-height:2.2}
+select{font:inherit;font-size:19px;border:2px solid #c9b7ea;border-radius:10px;padding:1px 6px;background:#fbf8ff;color:var(--ink);max-width:100%}
+select.ok{background:var(--ok)} select.bad{background:var(--bad)}
+.fix{color:var(--okD);font-size:18px;margin:0 6px}
+ol.order{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+ol.order li{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 12px}
+ol.order .no{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:50%;background:var(--lav)}
+ol.order .tx{flex:1}
+ol.order .mv{display:flex;flex-direction:column;gap:4px}
+ol.order .mv button{font-size:15px;border:none;background:var(--lav);border-radius:8px;width:40px;height:26px;cursor:pointer}
+ol.order .mv button:disabled{opacity:.3}
+.lablist{display:grid;gap:8px}
+.lrow{display:flex;align-items:center;gap:10px}
+.lrow select{flex:1}
+textarea{width:100%;min-height:130px;font:inherit;font-size:20px;border:2px dashed #c9b7ea;border-radius:14px;padding:10px 14px;background:#fffdf8;color:var(--ink);
+  background-image:repeating-linear-gradient(transparent 0 29px,#efe6dc 29px 30px);line-height:30px}
+details.help{background:var(--lemon);border-radius:12px;padding:6px 14px;margin-bottom:10px}
+details.help summary{cursor:pointer}
+.musterl{background:var(--mint);border-radius:16px;padding:12px 18px;margin-top:14px}
+.musterl h3,.selfcheck h3{font-size:28px}
+.selfcheck{background:var(--lav);border-radius:16px;padding:12px 18px;margin-top:12px}
+.selfcheck label{display:flex;gap:10px;align-items:flex-start;margin:8px 0;cursor:pointer}
+.selfcheck input{width:22px;height:22px;margin-top:5px;accent-color:var(--lavD)}
+.fb{border-radius:16px;padding:12px 18px;margin-top:16px;font-size:22px}
+.fb.good{background:var(--ok)} .fb.mid{background:var(--lemon)} .fb.low{background:var(--pink)}
+/* result */
+.result{text-align:center}
+.trophy{font-size:70px}
+.result h2{font-size:42px}
+.stars{font-size:46px;color:#f2b632;letter-spacing:6px}
+.tasklist{display:grid;gap:8px;margin:16px auto;max-width:620px;text-align:left}
+.trow{font:inherit;font-size:19px;display:flex;justify-content:space-between;gap:10px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:6px 14px;cursor:pointer;color:var(--ink)}
+.trow:hover{border-color:var(--lavD)}
+.result .row{justify-content:center}
+/* flashcards */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
+.filters button{font:inherit;font-size:18px;border:2px solid var(--line);background:#fff;border-radius:99px;padding:2px 14px;cursor:pointer;color:var(--ink)}
+.filters button.on{background:var(--peach);border-color:var(--peachD)}
+.flash{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.fc{font:inherit;border:none;background:none;padding:0;height:170px;perspective:800px;cursor:pointer;color:var(--ink)}
+.fc .inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .inner{transform:rotateY(180deg)}
+.fc .front,.fc .back{position:absolute;inset:0;border-radius:16px;display:grid;place-items:center;padding:12px;backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center}
+.fc .front{font-family:Caveat,cursive;font-size:32px;font-weight:700;background:var(--fcc,var(--peach))}
+.fc .back{background:#fff;border:2px dashed var(--line);transform:rotateY(180deg);font-size:17px;line-height:1.3}
+.fc[data-cat="w"]{--fcc:var(--pink)} .fc[data-cat="m"]{--fcc:var(--sky)} .fc[data-cat="z"]{--fcc:var(--lav)} .fc[data-cat="v"]{--fcc:var(--mint)}
+.confetti{position:fixed;font-size:28px;pointer-events:none;z-index:50;animation:fly 1.4s ease-out forwards}
+@keyframes fly{from{transform:translateY(0) rotate(0);opacity:1}to{transform:translateY(-260px) rotate(200deg);opacity:0}}
+@media (max-width:760px){
+  body{font-size:19px}
+  .hero{grid-template-columns:1fr} .hero h1{font-size:40px}
+  .diag-wrap,.cyc{grid-template-columns:1fr}
+  .cyc .ring{margin:20px auto 0}
+  .match{grid-template-columns:1fr 1fr;gap:8px} .mi{font-size:16px;padding:6px 8px}
+  .learn h2{font-size:32px}
+}
+</style>
+</head>
+<body>
+<header><div class="logo" data-go="home">🧬 Bio-Lernapp</div><div id="hi"></div></header>
+<main id="app"></main>
+
+<script>
+/* ===================== DATEN ===================== */
+const AFB={1:{t:'AFB I',d:'Wiedergeben',s:'⭐'},2:{t:'AFB II',d:'Anwenden',s:'⭐⭐'},3:{t:'AFB III',d:'Erklären & Beurteilen',s:'⭐⭐⭐'}};
+const TYPES={mc:'Multiple Choice',tf:'Richtig oder falsch?',match:'Zuordnen',gap:'Lückentext',order:'Reihenfolge',label:'Beschriften',sort:'Sortieren',open:'Erklären (freie Antwort)'};
+
+const DIAGS={
+ female:{vb:'0 0 400 320',title:'Innere weibliche Geschlechtsorgane',
+  art:`
+  <path class="tube" d="M158,94 C132,66 104,68 90,92"/>
+  <path class="tube" d="M242,94 C268,66 296,68 310,92"/>
+  <path class="fimb" d="M90,92 l-16,2 M90,92 l-14,11 M90,92 l-5,16 M310,92 l16,2 M310,92 l14,11 M310,92 l5,16"/>
+  <ellipse cx="100" cy="130" rx="25" ry="16" fill="#ffd9bd" stroke="#e3a275" stroke-width="2"/>
+  <circle cx="91" cy="127" r="4" fill="#fff3e6"/><circle cx="107" cy="134" r="5" fill="#fff3e6"/><circle cx="104" cy="122" r="3" fill="#fff3e6"/>
+  <ellipse cx="300" cy="130" rx="25" ry="16" fill="#ffd9bd" stroke="#e3a275" stroke-width="2"/>
+  <circle cx="309" cy="127" r="4" fill="#fff3e6"/><circle cx="293" cy="134" r="5" fill="#fff3e6"/><circle cx="296" cy="122" r="3" fill="#fff3e6"/>
+  <path d="M151,96 C149,72 170,66 200,66 C230,66 251,72 249,96 C249,140 237,178 218,198 L182,198 C163,178 151,140 151,96 Z" fill="#f7b3c6" stroke="#d47896" stroke-width="2"/>
+  <path d="M172,90 L228,90 L207,172 L193,172 Z" fill="#e984a5"/>
+  <rect x="182" y="194" width="36" height="32" rx="7" fill="#f7b3c6" stroke="#d47896" stroke-width="2"/>
+  <line x1="200" y1="170" x2="200" y2="226" stroke="#e984a5" stroke-width="4"/>
+  <path d="M185,224 L181,302 Q200,310 219,302 L215,224 Z" fill="#fbd3df" stroke="#d47896" stroke-width="2"/>
+  <path d="M200,228 L200,302" stroke="#f3a9bf" stroke-width="6" stroke-linecap="round"/>
+  <text x="200" y="318" class="svglab2">Schema, Ansicht von vorne</text>`,
+  hs:[
+   {n:1,short:'Eierstock',name:'Eierstock (Ovar)',x:100,y:130,lx:36,ly:178,info:'Paarig angelegt. Enthält die unreifen Eizellen. Ab der Pubertät reift etwa alle 4 Wochen eine Eizelle heran und wird beim Eisprung freigesetzt. Bildet außerdem die Hormone Östrogen und Progesteron.'},
+   {n:2,short:'Eileiter',name:'Eileiter',x:120,y:74,lx:36,ly:52,info:'Etwa 10–15 cm lang. Das trichterförmige Ende mit Fransen fängt die Eizelle beim Eisprung auf. Flimmerhärchen und Muskeln bewegen sie zur Gebärmutter. Hier findet meist die Befruchtung statt.'},
+   {n:3,short:'Gebärmutter',name:'Gebärmutter (Uterus)',x:239,y:112,lx:364,ly:88,info:'Birnenförmiger, etwa 7–8 cm großer Hohlmuskel. In der Schwangerschaft wächst sie mit dem Kind stark mit. Bei der Geburt schieben ihre kräftigen Muskeln das Baby hinaus.'},
+   {n:4,short:'Gebärmutterschleimhaut',name:'Gebärmutterschleimhaut',x:213,y:110,lx:364,ly:140,info:'Kleidet die Gebärmutter innen aus. Sie wird jeden Monat neu aufgebaut, damit sich eine befruchtete Eizelle einnisten kann. Ohne Befruchtung wird sie bei der Menstruation abgestoßen.'},
+   {n:5,short:'Gebärmutterhals',name:'Gebärmutterhals mit Muttermund',x:212,y:210,lx:364,ly:206,info:'Unterer, schmaler Teil der Gebärmutter. Der Muttermund ist die Öffnung zur Vagina. Meist ist er durch einen Schleimpfropf verschlossen; bei der Geburt öffnet er sich weit.'},
+   {n:6,short:'Vagina',name:'Vagina',x:212,y:270,lx:364,ly:268,info:'Dehnbarer, etwa 8–12 cm langer Muskelschlauch. Er verbindet die Gebärmutter mit der Körperaußenseite. Durch die Vagina fließt das Menstruationsblut ab; bei der Geburt ist sie der Geburtskanal.'}
+  ]},
+ male:{vb:'0 0 400 372',title:'Männliche Geschlechtsorgane',
+  art:`
+  <path d="M120,252 C98,300 116,352 168,348 C186,346 196,338 200,330 C204,338 214,346 232,348 C284,352 302,300 280,252 Z" fill="#fde6d6" stroke="#e0b192" stroke-width="2"/>
+  <ellipse cx="150" cy="294" rx="22" ry="30" fill="#f5c3a3" stroke="#d6966f" stroke-width="2"/>
+  <ellipse cx="250" cy="294" rx="22" ry="30" fill="#f5c3a3" stroke="#d6966f" stroke-width="2"/>
+  <path d="M134,268 C118,280 118,312 136,322" stroke="#cdb0e6" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M266,268 C282,280 282,312 264,322" stroke="#cdb0e6" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <ellipse cx="200" cy="70" rx="58" ry="42" fill="#fff4c4" stroke="#d6bd66" stroke-width="2"/>
+  <text x="200" y="66" class="svglab">Harnblase</text>
+  <ellipse cx="144" cy="112" rx="26" ry="11" transform="rotate(-28 144 112)" fill="#cdeccf" stroke="#78b980" stroke-width="2"/>
+  <ellipse cx="256" cy="112" rx="26" ry="11" transform="rotate(28 256 112)" fill="#cdeccf" stroke="#78b980" stroke-width="2"/>
+  <ellipse cx="200" cy="136" rx="30" ry="20" fill="#cfe2f6" stroke="#7aa5d2" stroke-width="2"/>
+  <path d="M134,268 C100,244 86,176 102,142 C114,114 152,106 172,124 L190,136" stroke="#9f8fd6" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M266,268 C300,244 314,176 298,142 C286,114 248,106 228,124 L210,136" stroke="#9f8fd6" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M176,152 L176,318 L224,318 L224,152 Z" fill="#f7cfb4" stroke="#d6966f" stroke-width="2"/>
+  <rect x="181" y="158" width="14" height="156" rx="7" fill="#eeab8b"/>
+  <rect x="205" y="158" width="14" height="156" rx="7" fill="#eeab8b"/>
+  <ellipse cx="200" cy="330" rx="26" ry="18" fill="#f3b99a" stroke="#d6966f" stroke-width="2"/>
+  <line x1="200" y1="110" x2="200" y2="346" stroke="#ee9b48" stroke-width="4"/>
+  <text x="200" y="20" class="svglab2">Schema, vereinfacht</text>`,
+  hs:[
+   {n:1,short:'Hoden',name:'Hoden',x:150,y:300,lx:36,ly:330,info:'Paarige Keimdrüsen. Ab der Pubertät bilden sie ständig Spermien – jeden Tag viele Millionen – und das Hormon Testosteron.'},
+   {n:2,short:'Nebenhoden',name:'Nebenhoden',x:122,y:292,lx:36,ly:274,info:'Liegen den Hoden an. Hier reifen die Spermien und werden gespeichert, bis sie gebraucht werden.'},
+   {n:3,short:'Spermienleiter',name:'Spermienleiter',x:99,y:209,lx:36,ly:200,info:'Etwa 40 cm lange Röhre. Sie transportiert die Spermien von den Nebenhoden bis zur Harn-Spermien-Röhre. Früher sagte man „Samenleiter“.'},
+   {n:4,short:'Bläschendrüse',name:'Bläschendrüse',x:262,y:112,lx:364,ly:90,info:'Paarig angelegt. Bildet eine zuckerhaltige Flüssigkeit, die den Spermien Energie für ihre Bewegung liefert. Sie macht den größten Teil des Spermas aus.'},
+   {n:5,short:'Prostata',name:'Prostata (Vorsteherdrüse)',x:220,y:140,lx:364,ly:146,info:'Liegt unter der Harnblase und umschließt die Harn-Spermien-Röhre. Bildet eine dünne Flüssigkeit, die die Spermien beweglich macht.'},
+   {n:6,short:'Schwellkörper',name:'Schwellkörper',x:212,y:196,lx:364,ly:198,info:'Schwammartiges Gewebe im Penis. Bei Erregung füllen sich die Schwellkörper mit Blut – der Penis wird größer und steif (Erektion).'},
+   {n:7,short:'Harn-Spermien-Röhre',name:'Harn-Spermien-Röhre',x:200,y:246,lx:364,ly:248,info:'Verläuft von der Harnblase durch Prostata und Penis bis zur Öffnung an der Eichel. Sie leitet entweder Urin oder Sperma nach außen – nie beides gleichzeitig.'},
+   {n:8,short:'Hodensack',name:'Hodensack (Skrotum)',x:274,y:334,lx:364,ly:300,info:'Hautbeutel, in dem die Hoden liegen. Er hält die Hoden etwa 2–3 °C kühler als das Körperinnere – das brauchen die Spermien. Bei Kälte zieht er sich zusammen.'},
+   {n:9,short:'Eichel',name:'Eichel',x:214,y:334,lx:364,ly:350,info:'Vorderer, sehr empfindlicher Teil des Penis. Sie ist von der Vorhaut bedeckt. An ihrer Spitze liegt die Öffnung der Harn-Spermien-Röhre.'}
+  ]}
+};
+
+const CYCLE=`<div class="cyc"><div class="ring"><span class="t1">⬇ Tag 1</span><div class="hole"><b>ca. 28</b><span>Tage</span></div></div>
+<ul class="leg">
+<li><i style="background:#f7a8b8"></i><span><b>Tag 1–5: Menstruation</b> – die Gebärmutterschleimhaut wird abgestoßen und fließt mit etwas Blut ab (Periode, Regelblutung).</span></li>
+<li><i style="background:#ffd8be"></i><span><b>Tag 6–13: Aufbau</b> – im Eierstock reift ein Follikel mit einer Eizelle heran. Die Schleimhaut wird neu aufgebaut.</span></li>
+<li><i style="background:#fff0a8"></i><span><b>ca. Tag 14: Eisprung (Ovulation)</b> – die reife Eizelle verlässt den Eierstock und gelangt in den Eileiter.</span></li>
+<li><i style="background:#d9c8f5"></i><span><b>Tag 15–28:</b> Die Schleimhaut ist dick und gut durchblutet. Wird die Eizelle nicht befruchtet, sinkt der Hormonspiegel – die Schleimhaut wird abgebaut und der Zyklus beginnt von vorn.</span></li>
+</ul></div>`;
+
+const CELLS=`<div class="svgbox" style="max-width:560px;margin:10px auto"><svg viewBox="0 0 420 210">
+<circle cx="110" cy="100" r="78" fill="#ffe6ef" stroke="#e78fae" stroke-width="3"/>
+<circle cx="110" cy="100" r="68" fill="#fff4f8" stroke="#f4c2d3" stroke-width="2" stroke-dasharray="5 4"/>
+<circle cx="100" cy="92" r="20" fill="#e3d7fa" stroke="#a48ad9" stroke-width="2"/>
+<text x="110" y="200" class="svglab2">Eizelle (ca. 0,1–0,2 mm)</text>
+<text x="100" y="97" class="svglab2" style="font-size:12px">Zellkern</text>
+<g transform="translate(250,100) scale(.75)">
+ <ellipse cx="0" cy="0" rx="13" ry="9" fill="#cfe2f6" stroke="#4a86bd" stroke-width="2.5"/>
+ <rect x="12" y="-3" width="16" height="6" rx="2" fill="#9fc6ea"/>
+ <path d="M28,0 C42,-14 56,14 70,0 C84,-14 98,14 112,0" stroke="#4a86bd" stroke-width="3" fill="none"/>
+</g>
+<text x="250" y="76" class="svglab2">Kopf</text>
+<text x="268" y="134" class="svglab2">Mittelstück</text>
+<text x="318" y="76" class="svglab2">Schwanz (Geißel)</text>
+<text x="292" y="200" class="svglab2">Spermium (ca. 0,06 mm)</text>
+</svg></div>`;
+
+const CATS=[
+{id:'w',title:'Weibliche Geschlechtsorgane',icon:'🌸',color:'var(--pink)',dark:'var(--pinkD)',
+ intro:'Vulva, Eierstöcke, Eileiter, Gebärmutter, Vagina – Aufbau und Aufgaben.',
+ learn:[
+  {t:'Überblick',html:`<p>Die weiblichen Geschlechtsorgane liegen zum Teil <b>außen</b> und zum größten Teil <b>innen</b> im Unterleib – gut geschützt durch das Becken.</p>
+   <div class="two"><div class="box"><h3>Äußere Geschlechtsorgane</h3><p>die <b>Vulva</b> mit Vulvalippen, Klitoris, Harnröhrenöffnung und Vaginalöffnung</p></div>
+   <div class="box"><h3>Innere Geschlechtsorgane</h3><p><b>Eierstöcke</b>, <b>Eileiter</b>, <b>Gebärmutter</b> und <b>Vagina</b></p></div></div>
+   <div class="tip">💬 In Biologie benutzen wir die richtigen <b>Fachbegriffe</b>. Das ist genau, sachlich und ganz normal – genau wie bei Herz, Lunge oder Darm.</div>`},
+  {t:'Die Vulva – außen sichtbar',html:`<p>Alles, was man außen sieht, heißt zusammen <b>Vulva</b>.</p><ul>
+   <li><b>Äußere Vulvalippen:</b> Hautfalten mit einem Fettpolster. Sie schützen die inneren Teile. Ab der Pubertät wachsen hier Haare.</li>
+   <li><b>Innere Vulvalippen:</b> zarte, empfindliche Hautfalten. Sie umschließen Harnröhren- und Vaginalöffnung.</li>
+   <li><b>Klitoris:</b> Sichtbar ist nur die kleine <b>Klitoriseichel</b> dort, wo sich die inneren Vulvalippen oben treffen. Der größte Teil der Klitoris liegt im Körper. Sie besteht – wie der Penis – aus <b>Schwellkörpern</b> und hat sehr viele Nervenenden. Deshalb ist sie besonders empfindlich.</li>
+   <li><b>Harnröhrenöffnung:</b> Hier verlässt der Urin den Körper.</li>
+   <li><b>Vaginalöffnung:</b> der Eingang zur Vagina.</li></ul>
+   <div class="merke">✏️ Merke: Vulva ≠ Vagina! Die Vulva ist außen, die Vagina liegt innen.</div>`},
+  {t:'Die Vaginalkorona',html:`<p>Am Eingang der Vagina liegt ein dünner, dehnbarer <b>Schleimhautsaum</b>: die <b>Vaginalkorona</b> (Korona = Kranz).</p>
+   <p>Früher sagte man dazu „Jungfernhäutchen“. Dieser Begriff ist <b>veraltet und falsch</b>: Es ist kein Häutchen, das die Vagina verschließt. Die Vaginalkorona hat immer eine Öffnung – sonst könnte kein Menstruationsblut abfließen.</p>
+   <div class="tip">🌈 Form und Größe der Vaginalkorona sind bei jedem Menschen anders – das ist völlig normal.</div>`},
+  {t:'Die inneren Organe',diagram:'female',html:`<p class="small">Das Schema zeigt die inneren Geschlechtsorgane vereinfacht von vorne. Tippe alle Nummern an!</p>`},
+  {t:'Eierstöcke und Eileiter',html:`<div class="two"><div class="box"><h3>Eierstöcke (Ovarien)</h3><ul>
+   <li>zwei Stück, jeweils etwa 3–4 cm groß</li>
+   <li>enthalten schon bei der Geburt <b>alle</b> unreifen Eizellen – Hunderttausende</li>
+   <li>ab der Pubertät reift etwa alle 4 Wochen eine Eizelle in einem Bläschen (<b>Follikel</b>) heran</li>
+   <li><b>Eisprung (Ovulation):</b> Der Follikel platzt, die Eizelle wird freigesetzt.</li>
+   <li>bilden die Hormone <b>Östrogen</b> und <b>Progesteron</b></li></ul></div>
+   <div class="box"><h3>Eileiter</h3><ul>
+   <li>Das trichterförmige Ende mit Fransen fängt die Eizelle auf.</li>
+   <li><b>Flimmerhärchen</b> bewegen die Eizelle Richtung Gebärmutter.</li>
+   <li>Im Eileiter findet meist die <b>Befruchtung</b> statt.</li>
+   <li>Die Eizelle ist nur etwa 12–24 Stunden befruchtungsfähig.</li></ul></div></div>`},
+  {t:'Gebärmutter und Vagina',html:`<div class="two"><div class="box"><h3>Gebärmutter (Uterus)</h3><ul>
+   <li>birnenförmiger <b>Hohlmuskel</b></li>
+   <li>innen: <b>Gebärmutterschleimhaut</b> – wird jeden Monat neu aufgebaut</li>
+   <li>Hier nistet sich eine befruchtete Eizelle ein und entwickelt sich zum Kind.</li>
+   <li>Ohne Befruchtung wird die Schleimhaut abgestoßen: <b>Menstruation</b>.</li>
+   <li>unten: <b>Gebärmutterhals</b> mit <b>Muttermund</b></li></ul></div>
+   <div class="box"><h3>Vagina</h3><ul>
+   <li>dehnbarer Muskelschlauch, etwa 8–12 cm lang</li>
+   <li>verbindet Gebärmutter und Körperaußenseite</li>
+   <li>Abfluss des Menstruationsbluts</li>
+   <li>bei der Geburt: <b>Geburtskanal</b></li>
+   <li>Milchsäurebakterien sorgen für ein saures Milieu und schützen vor Krankheitserregern.</li></ul></div></div>`}
+ ],
+ tasks:[
+  {type:'label',afb:1,diagram:'female',q:'Beschrifte das Schema der inneren weiblichen Geschlechtsorgane.'},
+  {type:'mc',afb:1,q:'Wie heißen die äußeren weiblichen Geschlechtsorgane zusammen?',options:['Vulva','Vagina','Uterus','Ovar'],a:0,explain:'Die <b>Vulva</b> umfasst alles, was außen sichtbar ist: Vulvalippen, Klitoriseichel, Harnröhren- und Vaginalöffnung. Die Vagina liegt innen, Uterus ist die Gebärmutter, Ovar der Eierstock.'},
+  {type:'match',afb:1,q:'Ordne jedem Organ seine Aufgabe zu.',pairs:[['Eierstock','bildet Eizellen und Hormone'],['Eileiter','transportiert die Eizelle zur Gebärmutter'],['Gebärmutter','hier nistet sich die befruchtete Eizelle ein und das Kind wächst heran'],['Vagina','verbindet die Gebärmutter mit der Körperaußenseite'],['Klitoris','besteht aus Schwellkörpern und hat sehr viele Nervenenden']]},
+  {type:'gap',afb:1,q:'Vervollständige den Text mit den passenden Fachbegriffen.',text:'Ab der Pubertät reift etwa alle vier Wochen in einem {0} eine Eizelle heran. Beim {1} gelangt sie in den {2}. Dort bewegen feine {3} sie in Richtung {4}.',answers:['Eierstock','Eisprung','Eileiter','Flimmerhärchen','Gebärmutter'],extra:['Muttermund','Vagina','Hoden']},
+  {type:'tf',afb:2,q:'Richtig oder falsch? Entscheide bei jeder Aussage.',items:[
+   ['Vulva und Vagina sind zwei Wörter für dasselbe Organ.',false,'Die Vulva ist außen, die Vagina ist der innere Muskelschlauch.'],
+   ['Ein Mädchen hat schon bei der Geburt alle unreifen Eizellen in den Eierstöcken.',true,'Sie reifen aber erst ab der Pubertät heran.'],
+   ['Die Klitoris ist nur so groß wie eine Erbse.',false,'Sichtbar ist nur die Klitoriseichel – der größte Teil liegt im Körper.'],
+   ['Die Vaginalkorona verschließt die Vagina vollständig.',false,'Sie ist ein dehnbarer Schleimhautsaum mit Öffnung – sonst könnte kein Menstruationsblut abfließen.'],
+   ['Der Urin verlässt den Körper durch eine eigene Öffnung, die Harnröhrenöffnung.',true,'Harnröhrenöffnung und Vaginalöffnung sind zwei getrennte Öffnungen.']]},
+  {type:'mc',afb:2,q:'Lena sagt: „Die Befruchtung findet in der Gebärmutter statt.“ Welche Aussage ist fachlich richtig?',options:['Lena hat recht.','Die Befruchtung findet meist im Eileiter statt; die befruchtete Eizelle wandert dann zur Gebärmutter und nistet sich ein.','Die Befruchtung findet im Eierstock statt.','Die Befruchtung findet in der Vagina statt.'],a:1,explain:'Spermien schwimmen bis in den Eileiter. Dort trifft meist ein Spermium auf die Eizelle. Erst danach wandert die befruchtete Eizelle in die Gebärmutter und <b>nistet sich ein</b>.'},
+  {type:'open',afb:3,q:'Durch eine Entzündung können beide Eileiter verkleben. Erkläre, warum die Frau dann auf natürlichem Weg nicht schwanger werden kann, obwohl ihre Eierstöcke weiterhin Eizellen bilden.',
+   help:'Überlege: Welchen Weg nimmt die Eizelle? Welchen Weg nehmen die Spermien? Wo treffen sie sich normalerweise?',
+   model:'Nach dem Eisprung wird die Eizelle normalerweise vom Eileiter aufgefangen und Richtung Gebärmutter transportiert. Sind die Eileiter verklebt, kann die Eizelle nicht hindurch. Gleichzeitig können die Spermien nicht durch den Eileiter zur Eizelle gelangen. Da die Befruchtung normalerweise im Eileiter stattfindet, können sich Eizelle und Spermium nicht treffen – eine Befruchtung und damit eine Schwangerschaft ist nicht möglich.',
+   points:['Die Eizelle kann nicht durch den Eileiter wandern.','Die Spermien gelangen nicht zur Eizelle.','Die Befruchtung (normalerweise im Eileiter) ist deshalb nicht möglich.']}
+ ]},
+{id:'m',title:'Männliche Geschlechtsorgane',icon:'💙',color:'var(--sky)',dark:'var(--skyD)',
+ intro:'Hoden, Nebenhoden, Spermienleiter, Drüsen und Penis – Aufbau und Aufgaben.',
+ learn:[
+  {t:'Überblick',html:`<div class="two"><div class="box"><h3>Äußere Geschlechtsorgane</h3><p><b>Penis</b> und <b>Hodensack</b></p></div>
+   <div class="box"><h3>Innere Geschlechtsorgane</h3><p><b>Hoden</b>, <b>Nebenhoden</b>, <b>Spermienleiter</b>, <b>Bläschendrüsen</b>, <b>Prostata</b> und <b>Harn-Spermien-Röhre</b></p></div></div>
+   <p>Die Hoden liegen zwar im Hodensack außerhalb der Bauchhöhle, werden aber zu den inneren Geschlechtsorganen gezählt.</p>
+   <div class="merke">✏️ Aktuelle Fachsprache: <b>Spermienleiter</b> (früher „Samenleiter“) und <b>Harn-Spermien-Röhre</b> (früher „Harnsamenröhre“).</div>`},
+  {t:'Die Organe im Schema',diagram:'male',html:`<p class="small">Vereinfachtes Schema. Die Harnblase ist zur Orientierung eingezeichnet. Tippe alle Nummern an!</p>`},
+  {t:'Hoden und Nebenhoden',html:`<div class="two"><div class="box"><h3>Hoden</h3><ul>
+   <li>zwei <b>Keimdrüsen</b> im Hodensack</li>
+   <li>bilden ab der Pubertät ein Leben lang <b>Spermien</b> – täglich viele Millionen</li>
+   <li>bilden das Hormon <b>Testosteron</b>: Es sorgt z. B. für Bartwuchs, Stimmbruch und Muskelwachstum.</li>
+   <li>Spermien entwickeln sich am besten bei 2–3 °C <b>unter</b> Körpertemperatur – deshalb liegen die Hoden außen im Hodensack.</li></ul></div>
+   <div class="box"><h3>Nebenhoden</h3><ul>
+   <li>liegen jedem Hoden direkt an</li>
+   <li>Hier <b>reifen</b> die Spermien und werden <b>gespeichert</b>.</li>
+   <li>Werden Spermien nicht gebraucht, baut der Körper sie ab.</li></ul></div></div>`},
+  {t:'Spermienleiter, Drüsen und Sperma',html:`<ul>
+   <li><b>Spermienleiter:</b> etwa 40 cm lange Röhren. Sie führen von den Nebenhoden in den Bauchraum, um die Harnblase herum bis zur Harn-Spermien-Röhre.</li>
+   <li><b>Bläschendrüsen:</b> bilden eine Flüssigkeit mit Fruchtzucker – die „Energie“ für die Spermien.</li>
+   <li><b>Prostata (Vorsteherdrüse):</b> bildet eine Flüssigkeit, die die Spermien beweglich macht.</li></ul>
+   <div class="merke">✏️ Spermien + Flüssigkeiten der Drüsen = <b>Sperma</b> (Ejakulat). Bei einem Samenerguss (<b>Ejakulation</b>) werden einige Milliliter Sperma mit vielen Millionen Spermien ausgestoßen.</div>`},
+  {t:'Der Penis',html:`<ul>
+   <li>besteht aus <b>Penisschaft</b> und <b>Eichel</b>; die Eichel ist von der <b>Vorhaut</b> bedeckt.</li>
+   <li>Im Inneren liegen <b>Schwellkörper</b>. Füllen sie sich mit Blut, wird der Penis größer und steif: <b>Erektion</b>.</li>
+   <li>Durch den Penis verläuft die <b>Harn-Spermien-Röhre</b>. Bei einer Erektion verschließt ein Muskel den Weg zur Harnblase – Urin und Sperma fließen nie gleichzeitig.</li>
+   <li>Ein unwillkürlicher Samenerguss im Schlaf heißt <b>Pollution</b>. In der Pubertät ist das ganz normal.</li></ul>
+   <div class="tip">🧼 Hygiene: Unter der Vorhaut sammelt sich Talg. Deshalb sollte man den Penis täglich mit warmem Wasser waschen.</div>`}
+ ],
+ tasks:[
+  {type:'label',afb:1,diagram:'male',q:'Beschrifte das Schema der männlichen Geschlechtsorgane.'},
+  {type:'mc',afb:1,q:'Wo werden die Spermien gebildet?',options:['in den Nebenhoden','in den Hoden','in der Prostata','in den Bläschendrüsen'],a:1,explain:'Spermien werden in den <b>Hoden</b> gebildet. In den Nebenhoden reifen sie und werden gespeichert.'},
+  {type:'match',afb:1,q:'Ordne jedem Organ seine Aufgabe zu.',pairs:[['Hoden','bilden Spermien und Testosteron'],['Nebenhoden','Spermien reifen hier und werden gespeichert'],['Spermienleiter','leitet die Spermien zur Harn-Spermien-Röhre'],['Bläschendrüse','bildet zuckerhaltige Flüssigkeit als Energiequelle'],['Prostata','bildet Flüssigkeit, die die Spermien beweglich macht'],['Schwellkörper','füllen sich mit Blut – der Penis wird steif']]},
+  {type:'order',afb:2,q:'Bringe den Weg der Spermien in die richtige Reihenfolge.',items:['Hoden: Spermien werden gebildet.','Nebenhoden: Spermien reifen und werden gespeichert.','Spermienleiter: Spermien werden transportiert.','Bläschendrüsen und Prostata geben ihre Flüssigkeiten dazu.','Harn-Spermien-Röhre im Penis','Öffnung an der Eichel: Das Sperma verlässt den Körper.']},
+  {type:'gap',afb:1,q:'Vervollständige den Text mit den passenden Fachbegriffen.',text:'In den {0} reifen die Spermien. Zusammen mit den Flüssigkeiten aus Bläschendrüsen und {1} bilden sie das {2}. Beim {3} wird es durch die {4} nach außen befördert. Eine {5} entsteht, wenn sich die Schwellkörper mit Blut füllen.',answers:['Nebenhoden','Prostata','Sperma','Samenerguss','Harn-Spermien-Röhre','Erektion'],extra:['Eileiter','Gebärmutter','Testosteron']},
+  {type:'mc',afb:2,q:'Warum liegen die Hoden außerhalb der Bauchhöhle im Hodensack?',options:['Damit sie mehr Platz zum Wachsen haben.','Weil sich Spermien bei einer etwas niedrigeren Temperatur als der Körpertemperatur am besten entwickeln.','Weil sie dort besser vor Stößen geschützt sind.','Weil im Hodensack mehr Blut fließt.'],a:1,explain:'Spermien entwickeln sich am besten bei etwa 2–3 °C unter Körpertemperatur. Der Hodensack kann sich bei Kälte zusammenziehen und bei Wärme entspannen – so wird die Temperatur reguliert.'},
+  {type:'tf',afb:2,q:'Richtig oder falsch? Entscheide bei jeder Aussage.',items:[
+   ['Urin und Sperma können gleichzeitig durch die Harn-Spermien-Röhre fließen.',false,'Bei einer Erektion verschließt ein Muskel den Weg zur Harnblase.'],
+   ['Ein Samenerguss im Schlaf (Pollution) ist in der Pubertät normal.',true,'Er zeigt, dass der Körper geschlechtsreif wird.'],
+   ['Die Prostata bildet die Spermien.',false,'Die Prostata bildet eine Flüssigkeit. Spermien entstehen in den Hoden.'],
+   ['Testosteron wird in den Hoden gebildet.',true,'Es sorgt u. a. für Bartwuchs, Stimmbruch und Muskelwachstum.'],
+   ['Der Spermienleiter verbindet die Nebenhoden mit der Harn-Spermien-Röhre.',true,'Er ist etwa 40 cm lang.']]},
+  {type:'open',afb:3,q:'Bei einer Vasektomie (Sterilisation des Mannes) werden beide Spermienleiter durchtrennt. Erkläre, warum der Mann danach weiterhin einen Samenerguss haben kann, aber keine Kinder mehr zeugen kann.',
+   help:'Schau dir das Schema an: Wo liegen die Bläschendrüsen und die Prostata – vor oder hinter der Trennstelle?',
+   model:'Die Hoden bilden weiterhin Spermien. Weil die Spermienleiter durchtrennt sind, können die Spermien aber nicht mehr zur Harn-Spermien-Röhre gelangen. Die Bläschendrüsen und die Prostata liegen hinter der Trennstelle und bilden weiterhin ihre Flüssigkeiten. Beim Samenerguss wird deshalb weiterhin Sperma ausgestoßen – es enthält aber keine Spermien mehr. Ohne Spermien kann keine Eizelle befruchtet werden.',
+   points:['Spermien werden weiter gebildet, gelangen aber nicht mehr durch die Spermienleiter.','Bläschendrüsen und Prostata bilden weiterhin Flüssigkeit, daher gibt es weiter einen Samenerguss.','Das Sperma enthält keine Spermien – eine Befruchtung ist nicht möglich.']}
+ ]},
+{id:'z',title:'Pubertät, Zyklus & Befruchtung',icon:'🌙',color:'var(--lav)',dark:'var(--lavD)',
+ intro:'Wie arbeiten die Organe zusammen? Hormone, Menstruationszyklus und Befruchtung.',
+ learn:[
+  {t:'Pubertät – der Startschuss',html:`<p>In der Pubertät gibt die <b>Hirnanhangsdrüse</b> (Hypophyse) im Gehirn ein Signal an die Keimdrüsen:</p>
+   <div class="two"><div class="box"><h3>Eierstöcke</h3><p>bilden <b>Östrogen</b> und <b>Progesteron</b>.<br>Erste Menstruation = <b>Menarche</b> (meist zwischen 10 und 15 Jahren)</p></div>
+   <div class="box"><h3>Hoden</h3><p>bilden <b>Testosteron</b>.<br>Erster Samenerguss = <b>Spermarche</b> (meist zwischen 11 und 15 Jahren)</p></div></div>
+   <p>Ab diesem Zeitpunkt ist der Körper <b>geschlechtsreif</b> – es kann also ein Kind entstehen.</p>
+   <div class="tip">🌱 Jeder Körper hat sein eigenes Tempo. Früher oder später ist beides normal.</div>`},
+  {t:'Der Menstruationszyklus',html:CYCLE+`<div class="merke">✏️ Ein Zyklus dauert durchschnittlich etwa <b>28 Tage</b>, normal sind etwa 21–35 Tage. Besonders in der Pubertät ist er oft noch unregelmäßig. Tag 1 ist immer der erste Tag der Menstruation.</div>`},
+  {t:'Eizelle und Spermium',html:CELLS+`<div class="two"><div class="box"><h3>Eizelle</h3><ul><li>größte Zelle des menschlichen Körpers</li><li>unbeweglich</li><li>enthält Erbinformation und einen Nährstoffvorrat</li></ul></div>
+   <div class="box"><h3>Spermium</h3><ul><li>sehr klein</li><li>Kopf mit Erbinformation, Mittelstück liefert Energie</li><li>bewegt sich mit dem Schwanz (Geißel) fort</li></ul></div></div>
+   <p>Eizelle und Spermium sind <b>Keimzellen</b> (Geschlechtszellen).</p>`},
+  {t:'Befruchtung und Einnistung',html:`<ol>
+   <li>Beim Geschlechtsverkehr gelangen Spermien in die Vagina. Sie schwimmen durch Muttermund und Gebärmutter bis in die Eileiter.</li>
+   <li>Nur <b>ein</b> Spermium dringt in die Eizelle ein. Die Zellkerne verschmelzen: <b>Befruchtung</b>.</li>
+   <li>Die befruchtete Eizelle teilt sich mehrmals und wandert in etwa 5–6 Tagen zur Gebärmutter.</li>
+   <li>Dort nistet sie sich in die Gebärmutterschleimhaut ein: <b>Einnistung</b>. Die Schwangerschaft beginnt.</li>
+   <li>Die Schleimhaut wird nun gebraucht – die <b>Menstruation bleibt aus</b>.</li></ol>`}
+ ],
+ tasks:[
+  {type:'mc',afb:1,q:'Wie nennt man die erste Menstruation?',options:['Menarche','Ovulation','Pollution','Spermarche'],a:0,explain:'<b>Menarche</b> ist die erste Menstruation. Ovulation = Eisprung, Pollution = Samenerguss im Schlaf, Spermarche = erster Samenerguss.'},
+  {type:'sort',afb:1,q:'Trifft die Aussage auf die Eizelle, das Spermium oder auf beide zu?',groups:['Eizelle','Spermium','beide'],items:[
+   ['bewegt sich mit einem Schwanz (Geißel) fort',1],['größte Zelle des menschlichen Körpers',0],['enthält Erbinformation',2],['entsteht im Eierstock',0],['wird täglich millionenfach gebildet',1],['ist eine Keimzelle',2],['enthält einen Nährstoffvorrat',0]]},
+  {type:'order',afb:2,q:'Bringe die Abschnitte des Menstruationszyklus in die richtige Reihenfolge. Beginne mit Tag 1.',items:['Menstruation: Die Gebärmutterschleimhaut wird abgestoßen.','Eine neue Eizelle reift im Eierstock; die Schleimhaut wird neu aufgebaut.','Eisprung: Die reife Eizelle verlässt den Eierstock.','Die Eizelle wandert durch den Eileiter; die Schleimhaut ist dick und gut durchblutet.','Keine Befruchtung: Die Schleimhaut wird abgebaut – der Zyklus beginnt von vorn.']},
+  {type:'mc',afb:2,q:'Mia bekommt am 2. Oktober ihre Menstruation. Ihr Zyklus dauert regelmäßig 28 Tage. Wann beginnt ihre nächste Menstruation voraussichtlich?',options:['16. Oktober','28. Oktober','30. Oktober','2. November'],a:2,explain:'Der 2. Oktober ist Tag 1. Nach 28 Tagen beginnt am <b>30. Oktober</b> der neue Zyklus. Der Eisprung liegt etwa in der Mitte, also um den 16. Oktober. Achtung: Gerade in der Pubertät sind Zyklen oft unregelmäßig.'},
+  {type:'gap',afb:2,q:'Vervollständige den Text.',text:'Bei der {0} verschmilzt ein Spermium mit der Eizelle. Das geschieht meist im {1}. Die befruchtete Eizelle teilt sich und nistet sich nach einigen Tagen in der {2} ein. Da die Schleimhaut nun gebraucht wird, bleibt die {3} aus.',answers:['Befruchtung','Eileiter','Gebärmutterschleimhaut','Menstruation'],extra:['Eierstock','Prostata','Ovulation']},
+  {type:'tf',afb:2,q:'Richtig oder falsch?',items:[
+   ['Der Eisprung findet bei einem 28-Tage-Zyklus ungefähr am 14. Tag statt.',true,'Er liegt etwa in der Mitte des Zyklus.'],
+   ['Bei der Menstruation wird die Eizelle zusammen mit sehr viel Blut ausgeschieden.',false,'Abgestoßen wird vor allem die Gebärmutterschleimhaut, es sind meist nur einige Esslöffel Blut.'],
+   ['Hormone steuern den Menstruationszyklus.',true,'Wichtig sind z. B. Östrogen und Progesteron.'],
+   ['Viele Spermien dringen gleichzeitig in die Eizelle ein.',false,'Nur ein einziges Spermium dringt ein, danach ist die Eizelle verschlossen.']]},
+  {type:'open',afb:3,q:'Ein Schwangerschaftstest ist positiv. Erkläre, warum während einer Schwangerschaft keine Menstruation stattfindet.',
+   help:'Was passiert normalerweise bei der Menstruation mit der Gebärmutterschleimhaut? Wozu wird sie in der Schwangerschaft gebraucht?',
+   model:'Bei der Menstruation wird normalerweise die Gebärmutterschleimhaut abgestoßen, weil keine befruchtete Eizelle eingenistet ist. In einer Schwangerschaft hat sich die befruchtete Eizelle in der Schleimhaut eingenistet. Die Schleimhaut versorgt den Embryo mit Nährstoffen und muss deshalb erhalten bleiben. Hormone (vor allem Progesteron) sorgen dafür, dass sie nicht abgebaut wird. Deshalb bleibt die Menstruation aus.',
+   points:['Die befruchtete Eizelle hat sich in der Gebärmutterschleimhaut eingenistet.','Die Schleimhaut versorgt den Embryo und wird deshalb nicht abgestoßen.','Hormone (v. a. Progesteron) erhalten die Schleimhaut.']}
+ ]},
+{id:'v',title:'Vergleich & Profi-Wissen',icon:'🧩',color:'var(--mint)',dark:'var(--mintD)',
+ intro:'Was haben männliche und weibliche Organe gemeinsam? Und warum gibt es neue Fachbegriffe?',
+ learn:[
+  {t:'Gleicher Ursprung',html:`<p>Im Mutterleib entwickeln sich die Geschlechtsorgane aus <b>denselben Anlagen</b>. Erst etwa ab der 7. Schwangerschaftswoche entwickeln sie sich unterschiedlich. Deshalb gibt es viele <b>Entsprechungen</b>:</p>
+   <table class="cmp"><tr><th>männlich</th><th>weiblich</th><th>Gemeinsamkeit</th></tr>
+   <tr><td>Hoden</td><td>Eierstöcke</td><td>Keimdrüsen: bilden Keimzellen und Hormone</td></tr>
+   <tr><td>Spermien</td><td>Eizellen</td><td>Keimzellen</td></tr>
+   <tr><td>Spermienleiter</td><td>Eileiter</td><td>Transportwege der Keimzellen</td></tr>
+   <tr><td>Testosteron</td><td>Östrogen, Progesteron</td><td>Geschlechtshormone</td></tr>
+   <tr><td>Schwellkörper des Penis</td><td>Schwellkörper der Klitoris</td><td>füllen sich bei Erregung mit Blut</td></tr>
+   <tr><td>Hodensack</td><td>äußere Vulvalippen</td><td>entstehen aus derselben Anlage</td></tr></table>`},
+  {t:'Fachsprache – warum neue Begriffe?',html:`<table class="cmp"><tr><th>veraltet</th><th>heute</th></tr>
+   <tr><td>Schamlippen</td><td>Vulvalippen</td></tr><tr><td>Jungfernhäutchen</td><td>Vaginalkorona</td></tr>
+   <tr><td>Samenleiter</td><td>Spermienleiter</td></tr><tr><td>Harnsamenröhre</td><td>Harn-Spermien-Röhre</td></tr></table>
+   <ul><li>Das Wort „Scham“ klingt so, als müsse man sich für seinen Körper schämen. Dafür gibt es keinen Grund.</li>
+   <li>„Jungfernhäutchen“ erzeugt eine falsche Vorstellung: Es gibt kein Häutchen, das die Vagina verschließt.</li>
+   <li>„Samen“ stammt aus der Pflanzenwelt. Menschen bilden <b>Spermien</b>.</li></ul>
+   <div class="merke">✏️ Gute Fachsprache ist <b>sachlich</b>, <b>genau</b> und <b>wertfrei</b>.</div>`},
+  {t:'Jeder Körper ist anders',html:`<ul>
+   <li>Größe, Form und Farbe der Geschlechtsorgane sind bei allen Menschen sehr unterschiedlich – genau wie Nasen oder Hände.</li>
+   <li>Die Pubertät beginnt nicht bei allen gleichzeitig.</li>
+   <li>Es gibt auch Menschen, deren Körper sich nicht eindeutig männlich oder weiblich entwickelt hat. Man nennt das <b>Intergeschlechtlichkeit</b>.</li></ul>
+   <div class="tip">💬 Fragen zum eigenen Körper sind normal. Ansprechpersonen sind z. B. Eltern, Lehrkräfte, Ärztinnen und Ärzte oder Beratungsstellen.</div>`}
+ ],
+ tasks:[
+  {type:'match',afb:2,q:'Ordne jedem männlichen Organ die weibliche Entsprechung zu.',pairs:[['Hoden','Eierstöcke'],['Spermienleiter','Eileiter'],['Spermien','Eizellen'],['Testosteron','Östrogen'],['Schwellkörper des Penis','Schwellkörper der Klitoris'],['Hodensack','äußere Vulvalippen']]},
+  {type:'sort',afb:1,q:'Männlich, weiblich oder bei beiden vorhanden? Sortiere.',groups:['♂ männlich','♀ weiblich','beide'],items:[
+   ['Nebenhoden',0],['Muttermund',1],['Prostata',0],['Vulvalippen',1],['Schwellkörper',2],['Keimdrüsen',2],['Gebärmutter',1],['Hodensack',0],['Bildung von Geschlechtshormonen',2]]},
+  {type:'mc',afb:1,q:'Welcher Begriff ist die aktuelle, richtige Fachsprache?',options:['Jungfernhäutchen','Vaginalkorona','Scheidenhaut','Schamhäutchen'],a:1,explain:'Heute sagt man <b>Vaginalkorona</b>. Sie ist ein dehnbarer Schleimhautsaum und kein verschließendes Häutchen.'},
+  {type:'tf',afb:2,q:'Richtig oder falsch?',items:[
+   ['Alle Vulven und alle Penisse sehen gleich aus.',false,'Form, Größe und Farbe sind sehr unterschiedlich – das ist normal.'],
+   ['Penis und Klitoris entwickeln sich aus derselben Anlage.',true,'Beide besitzen Schwellkörper.'],
+   ['Hoden und Eierstöcke sind Keimdrüsen.',true,'Sie bilden Keimzellen und Hormone.'],
+   ['Nur der männliche Körper bildet Geschlechtshormone.',false,'Auch die Eierstöcke bilden Geschlechtshormone (Östrogen, Progesteron).']]},
+  {type:'open',afb:3,q:'Ein Mitschüler sagt: „Männliche und weibliche Geschlechtsorgane haben überhaupt nichts gemeinsam.“ Nimm begründet Stellung und nenne mindestens zwei Beispiele.',
+   help:'Denke an die Tabelle „Gleicher Ursprung“. Welche Organe haben die gleiche Aufgabe?',
+   model:'Die Aussage ist falsch. Männliche und weibliche Geschlechtsorgane entwickeln sich im Mutterleib aus denselben Anlagen. Deshalb gibt es viele Entsprechungen: Hoden und Eierstöcke sind beide Keimdrüsen, die Keimzellen und Geschlechtshormone bilden. Spermienleiter und Eileiter transportieren die Keimzellen. Penis und Klitoris besitzen beide Schwellkörper. Es gibt also Unterschiede, aber auch viele Gemeinsamkeiten.',
+   points:['Ich habe die Aussage als falsch bzw. nur teilweise richtig beurteilt.','Beispiel: Hoden und Eierstöcke sind beide Keimdrüsen.','Ein weiteres Beispiel (z. B. Spermienleiter/Eileiter oder Schwellkörper in Penis und Klitoris).','Begründung: gleiche Anlage im Mutterleib.']},
+  {type:'open',afb:3,q:'Begründe, warum man heute „Vulvalippen“ statt „Schamlippen“ und „Vaginalkorona“ statt „Jungfernhäutchen“ sagt.',
+   model:'Das Wort „Scham“ klingt so, als müsse man sich für diesen Körperteil schämen. „Vulvalippen“ ist neutral und beschreibt genau, wo die Hautfalten liegen. Der Begriff „Jungfernhäutchen“ weckt die falsche Vorstellung, die Vagina sei durch ein Häutchen verschlossen. „Vaginalkorona“ (Kranz) beschreibt richtig, dass es ein dehnbarer Schleimhautsaum mit Öffnung ist. Die neuen Begriffe sind also sachlich richtiger und wertfrei.',
+   points:['„Scham“ ist wertend – „Vulvalippen“ ist neutral.','„Jungfernhäutchen“ führt zu einer falschen Vorstellung (verschließendes Häutchen).','Die neuen Begriffe sind fachlich genauer.']}
+ ]}
+];
+
+const GLOSS=[
+ ['Vulva','Gesamtheit der äußeren weiblichen Geschlechtsorgane','w'],['Vulvalippen','äußere und innere Hautfalten der Vulva; schützen Harnröhren- und Vaginalöffnung','w'],
+ ['Klitoris','Organ mit Schwellkörpern und sehr vielen Nervenenden; sichtbar ist nur die Klitoriseichel','w'],['Vaginalkorona','dehnbarer Schleimhautsaum am Vaginaeingang (früher „Jungfernhäutchen“)','w'],
+ ['Vagina','dehnbarer Muskelschlauch zwischen Gebärmutter und Körperaußenseite; Geburtskanal','w'],['Gebärmutter','Uterus; birnenförmiger Hohlmuskel, in dem ein Kind heranwächst','w'],
+ ['Gebärmutter­schleimhaut','innere Schicht der Gebärmutter; Ort der Einnistung','w'],['Muttermund','Öffnung des Gebärmutterhalses zur Vagina','w'],
+ ['Eileiter','transportiert die Eizelle zur Gebärmutter; Ort der Befruchtung','w'],['Eierstock','Ovar; weibliche Keimdrüse, bildet Eizellen, Östrogen und Progesteron','w'],
+ ['Follikel','Bläschen im Eierstock, in dem eine Eizelle heranreift','w'],
+ ['Hoden','männliche Keimdrüse; bildet Spermien und Testosteron','m'],['Nebenhoden','Reifung und Speicherung der Spermien','m'],
+ ['Spermienleiter','transportiert Spermien von den Nebenhoden zur Harn-Spermien-Röhre','m'],['Bläschendrüse','bildet zuckerhaltige Flüssigkeit als Energie für Spermien','m'],
+ ['Prostata','Vorsteherdrüse; bildet Flüssigkeit, die Spermien beweglich macht','m'],['Harn-Spermien-Röhre','leitet Urin oder Sperma durch den Penis nach außen','m'],
+ ['Schwellkörper','füllen sich bei Erregung mit Blut (bei Penis und Klitoris)','m'],['Eichel','empfindlicher vorderer Teil des Penis (auch: Klitoriseichel)','m'],
+ ['Vorhaut','Hautfalte, die die Eichel des Penis bedeckt','m'],['Hodensack','Skrotum; Hautbeutel, der die Hoden kühl hält','m'],
+ ['Erektion','Versteifung des Penis durch Blut in den Schwellkörpern','m'],['Ejakulation','Samenerguss; Ausstoß von Sperma','m'],
+ ['Pollution','unwillkürlicher Samenerguss im Schlaf','m'],['Sperma','Ejakulat; Spermien plus Flüssigkeiten der Drüsen','m'],
+ ['Testosteron','männliches Geschlechtshormon aus den Hoden','m'],
+ ['Menarche','erste Menstruation','z'],['Spermarche','erster Samenerguss','z'],['Menstruation','Abstoßen der Gebärmutterschleimhaut; Periode, Regelblutung','z'],
+ ['Eisprung','Ovulation; reife Eizelle verlässt den Eierstock','z'],['Östrogen','weibliches Geschlechtshormon aus den Eierstöcken','z'],
+ ['Progesteron','Hormon aus dem Eierstock; erhält die Gebärmutterschleimhaut','z'],['Befruchtung','Verschmelzung von Spermium und Eizelle','z'],
+ ['Einnistung','befruchtete Eizelle setzt sich in der Gebärmutterschleimhaut fest','z'],['Spermium','männliche Keimzelle mit Kopf, Mittelstück und Geißel','z'],
+ ['Keimdrüsen','Organe, die Keimzellen bilden: Hoden und Eierstöcke','v'],['Keimzellen','Geschlechtszellen: Eizellen und Spermien','v'],
+ ['Intergeschlecht­lichkeit','Körper entwickelt sich nicht eindeutig männlich oder weiblich','v']
+];
+
+const PRAISE=['Spitze! 🎉','Super gemacht! 🌟','Wow, alles richtig! 🏆','Klasse – du bist ein Bio-Profi! 💪','Perfekt! ✨'];
+const MID=['Gut gemacht – fast alles richtig! 👍','Schon richtig gut! Schau dir die Fehler nochmal an. 🔍','Nicht schlecht! 🌿'];
+const LOW=['Kein Problem – lies die Lernkarten nochmal und versuch es erneut! 📖','Dranbleiben! Fehler gehören zum Lernen dazu. 🌱'];
+
+/* ===================== ENGINE ===================== */
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const CAT=id=>CATS.find(c=>c.id===id);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function load(){try{const r=JSON.parse(localStorage.getItem('bioGO7'));if(r&&r.cats)return r}catch(e){}return{name:'',cats:{}}}
+let S=load();
+function save(){try{localStorage.setItem('bioGO7',JSON.stringify(S))}catch(e){}}
+function cs(id){return S.cats[id]||(S.cats[id]={learned:false,best:{}})}
+function tmax(t){switch(t.type){case'mc':return 1;case'tf':return t.items.length;case'match':return t.pairs.length;case'gap':return t.answers.length;
+ case'order':return t.items.length;case'label':return DIAGS[t.diagram].hs.length;case'sort':return t.items.length;case'open':return t.points.length}return 0}
+function catScore(c){let s=0,m=0;c.tasks.forEach((t,i)=>{m+=tmax(t);const b=cs(c.id).best[i];if(b!=null)s+=b});return{s,m}}
+function total(){let s=0,m=0;CATS.forEach(c=>{const r=catScore(c);s+=r.s;m+=r.m});return{s,m}}
+function rank(T){const r=T.m?T.s/T.m:0;return r>=.9?'🏆 Bio-Profi':r>=.6?'🌳 Bio-Kenner:in':r>=.25?'🌿 Bio-Entdecker:in':'🌱 Bio-Neuling'}
+function header(){const T=total();$('#hi').innerHTML=(S.name?'Hallo '+S.name+'! · ':'')+'⭐ '+T.s+' Punkte'}
+function topBar(c,label){return `<div class="topbar"><button class="btn ghost" data-go="home">← Übersicht</button>${c?`<div class="pill" style="--c:${c.color}">${c.icon} ${c.title} · ${label}</div>`:''}</div>`}
+function view(html){app.innerHTML=html;header();window.scrollTo(0,0)}
+function checkBtn(txt){return `<div class="checkrow"><button class="btn check">${txt||'✔ Überprüfen'}</button><span class="hint"></span></div>`}
+function nudge(btn,msg){const h=btn.parentElement.querySelector('.hint');h.textContent=msg;btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake')}
+function burst(){const em=['🌸','⭐','💜','💙','🌼','✨'];for(let i=0;i<16;i++){const s=document.createElement('span');s.className='confetti';s.textContent=pick(em);
+ s.style.left=(10+Math.random()*80)+'vw';s.style.top=(55+Math.random()*35)+'vh';s.style.animationDelay=(Math.random()*.3)+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),1900)}}
+
+function svg(key){const D=DIAGS[key];return `<svg viewBox="${D.vb}" role="img" aria-label="${D.title}">${D.art}${D.hs.map(h=>
+ `<g class="hs" data-n="${h.n}"><line x1="${h.lx}" y1="${h.ly}" x2="${h.x}" y2="${h.y}"/><circle class="dot" cx="${h.x}" cy="${h.y}" r="4"/><circle class="num" cx="${h.lx}" cy="${h.ly}" r="15"/><text x="${h.lx}" y="${h.ly+6}">${h.n}</text></g>`).join('')}</svg>`}
+
+/* ---------- Startseite ---------- */
+function home(){
+ const T=total();
+ view(`<section class="card hero"><div><span class="kicker">Biologie · Klasse 7</span><h1>Mein Körper – die Geschlechtsorgane</h1>
+  <p>Lerne Aufbau und Funktion der weiblichen und männlichen Geschlechtsorgane kennen – mit der richtigen Fachsprache. Immer erst <b>lernen 📖</b>, dann <b>üben ✏️</b>!</p>
+  <label class="namebox">Dein Name: <input id="nm" value="${S.name||''}" placeholder="z. B. Alex" maxlength="20"></label></div>
+  <div class="scorebox"><div class="big">${T.s}</div><div>von ${T.m} Punkten</div><div class="rank">${rank(T)}</div></div></section>
+  <div class="grid">${CATS.map(c=>{const st=cs(c.id),r=catScore(c),p=r.m?Math.round(r.s/r.m*100):0;
+   return `<div class="card cat" style="--c:${c.color};--d:${c.dark}"><div class="cat-ic">${c.icon}</div><h2>${c.title}</h2><p>${c.intro}</p>
+   <div class="small">${st.learned?'✅ Lernkarten gelesen':'📖 Starte mit den Lernkarten'} · ${r.s}/${r.m} Punkte</div><div class="bar"><div style="width:${p}%"></div></div>
+   <div class="row"><button class="btn" data-learn="${c.id}">📖 Lernen</button><button class="btn alt" data-practice="${c.id}" ${st.learned?'':'disabled title="Erst die Lernkarten lesen!"'}>${st.learned?'✏️ Üben':'🔒 Üben'}</button>
+   ${Object.keys(st.best).length===c.tasks.length?`<button class="link" data-res="${c.id}">Ergebnis</button>`:''}</div></div>`}).join('')}
+  <div class="card cat" style="--c:var(--peach);--d:var(--peachD)"><div class="cat-ic">🗂️</div><h2>Fachbegriffe-Karteikarten</h2><p>Alle wichtigen Begriffe zum Wiederholen. Tippe eine Karte an, um sie umzudrehen.</p>
+   <div class="row"><button class="btn" data-go="gloss">Karten ansehen</button></div></div></div>
+  <section class="card legend"><h3>So sind die Aufgaben aufgebaut</h3><div class="afbrow">
+   <div class="a1">⭐ <b>AFB I – Wiedergeben</b><br>Fachbegriffe nennen, beschriften, zuordnen</div>
+   <div class="a2">⭐⭐ <b>AFB II – Anwenden</b><br>Abläufe ordnen, Aussagen prüfen, rechnen</div>
+   <div class="a3">⭐⭐⭐ <b>AFB III – Erklären & Beurteilen</b><br>eigene Antworten formulieren und begründen</div></div>
+   <div class="row" style="justify-content:flex-end"><button class="link" id="reset">Fortschritt zurücksetzen</button></div></section>`);
+ $('#nm').oninput=e=>{S.name=e.target.value.trim();save();header()};
+ $('#reset').onclick=()=>{if(confirm('Wirklich alle Punkte und den Fortschritt löschen?')){S={name:S.name,cats:{}};save();home()}};
+}
+
+/* ---------- Lernen ---------- */
+function learn(id,i=0){
+ const c=CAT(id),card=c.learn[i],n=c.learn.length;
+ let diag='';
+ if(card.diagram){diag=`<div class="diag-wrap"><div class="svgbox">${svg(card.diagram)}</div><div class="hs-info" id="hsinfo"><div class="hsname">👆 Tippe auf eine Nummer!</div>
+  <p>Dann erfährst du, wie das Organ heißt und welche Aufgabe es hat.</p><div class="found">Entdeckt: 0 / ${DIAGS[card.diagram].hs.length}</div></div></div>`}
+ view(topBar(c,'Lernen')+`<section class="card learn" style="--c:${c.color};--d:${c.dark}">
+  <div class="dots">${c.learn.map((_,k)=>`<span class="${k===i?'on':k<i?'done':''}"></span>`).join('')}</div>
+  <h2>${card.t}</h2>${diag}<div class="content">${card.html}</div>
+  <div class="nav"><button class="btn ghost" id="prev" ${i===0?'disabled':''}>← zurück</button><span class="small">Karte ${i+1} von ${n}</span>
+  ${i<n-1?'<button class="btn" id="next">weiter →</button>':'<button class="btn" id="fin">Fertig – jetzt üben! ✏️</button>'}</div></section>`);
+ if(card.diagram){const D=DIAGS[card.diagram],seen=new Set();
+  app.querySelectorAll('.hs').forEach(g=>g.addEventListener('click',()=>{const h=D.hs.find(x=>x.n==g.dataset.n);
+   app.querySelectorAll('.hs').forEach(x=>x.classList.remove('active'));g.classList.add('active','seen');seen.add(h.n);
+   $('#hsinfo').innerHTML=`<div class="hsname"><span class="num">${h.n}</span>${h.name}</div><p>${h.info}</p><div class="found">Entdeckt: ${seen.size} / ${D.hs.length} ${seen.size===D.hs.length?'🎉 Alle gefunden!':''}</div>`}))}
+ if(i>0)$('#prev').onclick=()=>learn(id,i-1);
+ if(i<n-1)$('#next').onclick=()=>learn(id,i+1);
+ else $('#fin').onclick=()=>{cs(id).learned=true;save();practice(id,0)};
+}
+
+/* ---------- Üben ---------- */
+function practice(id,i=0){
+ const c=CAT(id),t=c.tasks[i],n=c.tasks.length,a=AFB[t.afb];
+ cs(id).learned=true;save();
+ view(topBar(c,'Üben')+`<section class="card task" style="--c:${c.color};--d:${c.dark}">
+  <div class="task-head"><span class="pill" style="--c:${c.color}">Aufgabe ${i+1} / ${n}</span><span class="afb afb${t.afb}">${a.s} ${a.t} – ${a.d}</span><span class="type">${TYPES[t.type]}</span></div>
+  <div class="progress"><div style="width:${i/n*100}%"></div></div>
+  <h2 class="q">${t.q}</h2><div id="body"></div><div id="fb"></div>
+  <div class="nav" id="tnav"><button class="btn ghost" id="back" ${i===0?'disabled':''}>← vorherige</button><button class="btn ghost" id="skip">überspringen →</button></div></section>`);
+ const go=()=>i<n-1?practice(id,i+1):result(id);
+ if(i>0)$('#back').onclick=()=>practice(id,i-1);
+ $('#skip').onclick=go;
+ const done=(s,m)=>{const b=cs(id).best;if(b[i]==null||s>b[i])b[i]=s;save();header();const r=m?s/m:0;
+  $('#fb').innerHTML=`<div class="fb ${r===1?'good':r>=.5?'mid':'low'}">${r===1?pick(PRAISE):r>=.5?pick(MID):pick(LOW)} <b>${s} / ${m} Punkte</b></div>`;
+  $('#tnav').innerHTML=`<button class="btn ghost" id="again">🔁 nochmal</button><button class="btn" id="nxt">${i<n-1?'nächste Aufgabe →':'zum Ergebnis 🏁'}</button>`;
+  $('#nxt').onclick=go;$('#again').onclick=()=>practice(id,i);
+  if(r===1)burst();$('#fb').scrollIntoView({behavior:'smooth',block:'center'})};
+ R[t.type](t,$('#body'),done);
+}
+
+const R={
+ mc(t,el,done){
+  const ord=shuffle(t.options.map((_,k)=>k));let sel=null;
+  el.innerHTML=`<div class="opts">${ord.map((k,p)=>`<button class="opt" data-k="${k}"><span class="let">${'ABCD'[p]}</span>${t.options[k]}</button>`).join('')}</div>${checkBtn()}`;
+  const bs=[...el.querySelectorAll('.opt')];
+  bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.k});
+  el.querySelector('.check').onclick=function(){if(sel===null)return nudge(this,'Wähle zuerst eine Antwort aus!');
+   bs.forEach(b=>{b.disabled=true;const k=+b.dataset.k;b.classList.remove('sel');if(k===t.a)b.classList.add('ok');else if(k===sel)b.classList.add('bad')});
+   this.parentElement.remove();el.insertAdjacentHTML('beforeend',`<div class="explain">💡 ${t.explain}</div>`);done(sel===t.a?1:0,1)};
+ },
+ tf(t,el,done){
+  const ans=t.items.map(()=>null);
+  el.innerHTML=t.items.map((it,k)=>`<div class="tfrow" data-k="${k}"><div class="st">${it[0]}</div><div class="tfb"><button data-v="1">✔ richtig</button><button data-v="0">✘ falsch</button></div><div class="ex"></div></div>`).join('')+checkBtn();
+  const rows=[...el.querySelectorAll('.tfrow')];
+  rows.forEach(r=>{const k=+r.dataset.k;r.querySelectorAll('button').forEach(b=>b.onclick=()=>{r.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');ans[k]=b.dataset.v==='1'})});
+  el.querySelector('.check').onclick=function(){if(ans.includes(null))return nudge(this,'Entscheide bei jeder Aussage!');let s=0;
+   rows.forEach((r,k)=>{const it=t.items[k],ok=ans[k]===it[1];if(ok)s++;r.classList.add(ok?'ok':'bad');r.querySelectorAll('button').forEach(b=>b.disabled=true);
+    r.querySelector('.ex').innerHTML=`${ok?'✅':'❌'} Die Aussage ist <b>${it[1]?'richtig':'falsch'}</b>. ${it[2]||''}`});
+   this.parentElement.remove();done(s,t.items.length)};
+ },
+ match(t,el,done){
+  const n=t.pairs.length,right=shuffle(t.pairs.map((_,k)=>k)),pr={};let selL=null,locked=false;
+  el.innerHTML=`<p class="howto">👆 Tippe links auf einen Begriff und dann rechts auf die passende Beschreibung. Nochmal antippen löst die Verbindung.</p>
+   <div class="match"><div class="col">${t.pairs.map((p,k)=>`<button class="mi" data-l="${k}"><i class="tag">${k+1}</i>${p[0]}</button>`).join('')}</div>
+   <div class="col">${right.map(k=>`<button class="mi" data-r="${k}"><i class="tag">?</i><span>${t.pairs[k][1]}</span></button>`).join('')}</div></div>${checkBtn()}`;
+  const Ls=[...el.querySelectorAll('[data-l]')],Rs=[...el.querySelectorAll('[data-r]')],chk=el.querySelector('.check');
+  const owner=r=>{for(const l in pr)if(pr[l]===r)return +l;return null};
+  function paint(){Ls.forEach(b=>{const l=+b.dataset.l;b.classList.toggle('sel',selL===l);if(pr[l]!=null)b.dataset.c=l;else delete b.dataset.c});
+   Rs.forEach(b=>{const l=owner(+b.dataset.r);b.querySelector('.tag').textContent=l==null?'?':l+1;if(l!=null)b.dataset.c=l;else delete b.dataset.c})}
+  Ls.forEach(b=>b.onclick=()=>{if(locked)return;const l=+b.dataset.l;if(selL===l){delete pr[l];selL=null}else selL=l;paint()});
+  Rs.forEach(b=>b.onclick=()=>{if(locked)return;const r=+b.dataset.r;if(selL===null){const o=owner(r);if(o!=null){delete pr[o];paint()}else nudge(chk,'Tippe zuerst links auf einen Begriff!');return}
+   const o=owner(r);if(o!=null)delete pr[o];pr[selL]=r;selL=null;paint()});
+  chk.onclick=function(){if(Object.keys(pr).length<n)return nudge(this,'Verbinde zuerst alle Begriffe!');locked=true;let s=0,wrong=[];
+   Ls.forEach(b=>{const l=+b.dataset.l,ok=pr[l]===l;if(ok)s++;else wrong.push(l);b.classList.add(ok?'ok':'bad');b.disabled=true});
+   Rs.forEach(b=>{const r=+b.dataset.r,l=owner(r);b.classList.add(l===r?'ok':'bad');b.disabled=true});
+   this.parentElement.remove();
+   if(wrong.length)el.insertAdjacentHTML('beforeend',`<div class="explain">💡 Richtig wäre:<br>${wrong.map(l=>`<b>${t.pairs[l][0]}</b> → ${t.pairs[l][1]}`).join('<br>')}</div>`);
+   done(s,n)};
+ },
+ gap(t,el,done){
+  const opts=shuffle([...t.answers,...(t.extra||[])]);
+  const html=t.text.replace(/\{(\d+)\}/g,(m,k)=>`<select data-k="${k}"><option value="">…</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select>`);
+  el.innerHTML=`<div class="bank">🧺 Wörterkiste (nicht alle Wörter passen): ${opts.map(o=>`<span>${o}</span>`).join('')}</div><p class="gaptext">${html}</p>${checkBtn()}`;
+  const sels=[...el.querySelectorAll('select')];
+  el.querySelector('.check').onclick=function(){if(sels.some(s=>!s.value))return nudge(this,'Fülle zuerst alle Lücken aus!');let s=0;
+   sels.forEach(x=>{const k=+x.dataset.k,ok=x.value===t.answers[k];if(ok)s++;x.classList.add(ok?'ok':'bad');x.disabled=true;
+    if(!ok)x.insertAdjacentHTML('afterend',`<span class="fix">→ ${t.answers[k]}</span>`)});
+   this.parentElement.remove();done(s,t.answers.length)};
+ },
+ order(t,el,done){
+  let cur=shuffle(t.items.map((_,k)=>k));while(cur.every((v,p)=>v===p))cur=shuffle(cur);let locked=false;
+  el.innerHTML=`<p class="howto">↕️ Verschiebe die Kärtchen mit den Pfeilen in die richtige Reihenfolge.</p><ol class="order"></ol>${checkBtn()}`;
+  const list=el.querySelector('.order');
+  const draw=()=>{list.innerHTML=cur.map((k,p)=>`<li class="${locked?(k===p?'ok':'bad'):''}"><span class="no">${p+1}</span><span class="tx">${t.items[k]}</span>
+   <span class="mv"><button data-p="${p}" data-d="-1" ${p===0||locked?'disabled':''} aria-label="nach oben">▲</button><button data-p="${p}" data-d="1" ${p===cur.length-1||locked?'disabled':''} aria-label="nach unten">▼</button></span></li>`).join('')};
+  draw();
+  list.onclick=e=>{const b=e.target.closest('button');if(!b||locked)return;const p=+b.dataset.p,d=+b.dataset.d;[cur[p],cur[p+d]]=[cur[p+d],cur[p]];draw()};
+  el.querySelector('.check').onclick=function(){locked=true;const s=cur.filter((v,p)=>v===p).length;draw();this.parentElement.remove();
+   if(s<cur.length)el.insertAdjacentHTML('beforeend',`<div class="explain">💡 Richtige Reihenfolge:<br>${t.items.map((x,k)=>`${k+1}. ${x}`).join('<br>')}</div>`);
+   done(s,cur.length)};
+ },
+ label(t,el,done){
+  const D=DIAGS[t.diagram],names=shuffle(D.hs.map(h=>h.short));
+  el.innerHTML=`<div class="diag-wrap"><div class="svgbox">${svg(t.diagram)}</div><div class="lablist">${D.hs.map(h=>`<label class="lrow"><span class="num">${h.n}</span>
+   <select data-n="${h.n}"><option value="">– wählen –</option>${names.map(x=>`<option>${x}</option>`).join('')}</select></label>`).join('')}</div></div>${checkBtn()}`;
+  const sels=[...el.querySelectorAll('select')];
+  el.querySelectorAll('.hs').forEach(g=>g.addEventListener('click',()=>{const s=el.querySelector(`select[data-n="${g.dataset.n}"]`);if(s&&!s.disabled)s.focus()}));
+  el.querySelector('.check').onclick=function(){if(sels.some(s=>!s.value))return nudge(this,'Beschrifte zuerst alle Nummern!');let s=0;
+   sels.forEach(x=>{const h=D.hs.find(y=>y.n==x.dataset.n),ok=x.value===h.short;if(ok)s++;x.classList.add(ok?'ok':'bad');x.disabled=true;
+    if(!ok)x.insertAdjacentHTML('afterend',`<span class="fix">→ ${h.short}</span>`)});
+   this.parentElement.remove();done(s,D.hs.length)};
+ },
+ sort(t,el,done){
+  const ans=t.items.map(()=>null);
+  el.innerHTML=t.items.map((it,k)=>`<div class="srow" data-k="${k}"><div class="st">${it[0]}</div><div class="sb">${t.groups.map((g,gi)=>`<button data-g="${gi}">${g}</button>`).join('')}</div><div class="ex"></div></div>`).join('')+checkBtn();
+  const rows=[...el.querySelectorAll('.srow')];
+  rows.forEach(r=>{const k=+r.dataset.k;r.querySelectorAll('button').forEach(b=>b.onclick=()=>{r.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');ans[k]=+b.dataset.g})});
+  el.querySelector('.check').onclick=function(){if(ans.includes(null))return nudge(this,'Ordne zuerst alle Aussagen zu!');let s=0;
+   rows.forEach((r,k)=>{const ok=ans[k]===t.items[k][1];if(ok)s++;r.classList.add(ok?'ok':'bad');r.querySelectorAll('button').forEach(b=>b.disabled=true);
+    if(!ok)r.querySelector('.ex').innerHTML=`❌ Richtig wäre: <b>${t.groups[t.items[k][1]]}</b>`});
+   this.parentElement.remove();done(s,t.items.length)};
+ },
+ open(t,el,done){
+  el.innerHTML=`<p class="howto">✍️ Schreibe deine Antwort in ganzen Sätzen und verwende Fachbegriffe. Danach vergleichst du mit der Musterlösung.</p>
+   ${t.help?`<details class="help"><summary>💡 Tipp anzeigen</summary>${t.help}</details>`:''}<textarea placeholder="Meine Antwort …"></textarea>${checkBtn('📝 Mit Musterlösung vergleichen')}<div class="model"></div>`;
+  const ta=el.querySelector('textarea');
+  el.querySelector('.check').onclick=function(){if(ta.value.trim().length<25)return nudge(this,'Schreib zuerst deine eigene Antwort (mindestens ein bis zwei Sätze) ✍️');
+   ta.readOnly=true;this.parentElement.remove();
+   el.querySelector('.model').innerHTML=`<div class="musterl"><h3>Musterlösung</h3><p>${t.model}</p></div>
+    <div class="selfcheck"><h3>Selbstcheck: Was steht in deiner Antwort?</h3>${t.points.map(p=>`<label><input type="checkbox"> <span>${p}</span></label>`).join('')}
+    <div class="row"><button class="btn" id="sc">Selbstcheck fertig ✔</button></div></div>`;
+   $('#sc').onclick=function(){const cb=[...el.querySelectorAll('.selfcheck input')];cb.forEach(x=>x.disabled=true);this.remove();done(cb.filter(x=>x.checked).length,t.points.length)}};
+ }
+};
+
+/* ---------- Ergebnis ---------- */
+function result(id){
+ const c=CAT(id),{s,m}=catScore(c),r=m?s/m:0,stars=r>=.9?3:r>=.7?2:r>=.4?1:0;
+ const msg=stars===3?'Hervorragend! Du kennst dich richtig gut aus.':stars===2?'Sehr gut! Schau dir die Aufgaben mit Fehlern nochmal an.':stars===1?'Ein guter Anfang! Lies die Lernkarten nochmal und übe dann weiter.':'Lies die Lernkarten noch einmal in Ruhe – dann klappt es bestimmt!';
+ view(topBar(c,'Ergebnis')+`<section class="card result" style="--c:${c.color};--d:${c.dark}"><div class="trophy">${['💪','🌱','🥈','🏆'][stars]}</div>
+  <h2>${S.name?S.name+', du':'Du'} hast ${s} von ${m} Punkten!</h2><div class="stars">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${msg}</p>
+  <div class="tasklist">${c.tasks.map((t,i)=>{const b=cs(id).best[i];return `<button class="trow" data-task="${id}:${i}"><span>Aufgabe ${i+1} · ${TYPES[t.type]} <span class="afb afb${t.afb}">${AFB[t.afb].t}</span></span><span>${b==null?'–':b}/${tmax(t)} ${b===tmax(t)?'✅':'🔁'}</span></button>`}).join('')}</div>
+  <div class="row"><button class="btn alt" data-learn="${id}">📖 Nochmal lernen</button><button class="btn" data-practice="${id}">🔁 Nochmal üben</button><button class="btn ghost" data-go="home">🏠 Übersicht</button></div></section>`);
+ if(stars===3)burst();
+}
+
+/* ---------- Karteikarten ---------- */
+function gloss(){
+ const F=[['alle','Alle'],['w','🌸 weiblich'],['m','💙 männlich'],['z','🌙 Zyklus & Befruchtung'],['v','🧩 Vergleich']];
+ view(topBar(null)+`<section class="card" style="border-top:10px solid var(--peach)"><h2 style="font-size:40px">🗂️ Fachbegriffe</h2>
+  <p>Teste dich selbst: Weißt du die Erklärung, <b>bevor</b> du die Karte umdrehst?</p>
+  <div class="filters">${F.map((f,k)=>`<button data-f="${f[0]}" class="${k?'':'on'}">${f[1]}</button>`).join('')}<button id="mix">🔀 mischen</button></div>
+  <div class="flash"></div></section>`);
+ let list=[...GLOSS],f='alle';
+ const draw=()=>{app.querySelector('.flash').innerHTML=list.filter(g=>f==='alle'||g[2]===f).map(g=>`<button class="fc" data-cat="${g[2]}"><div class="inner"><div class="front">${g[0]}</div><div class="back">${g[1]}</div></div></button>`).join('')};
+ draw();
+ app.querySelector('.flash').onclick=e=>{const b=e.target.closest('.fc');if(b)b.classList.toggle('flip')};
+ app.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{f=b.dataset.f;app.querySelectorAll('[data-f]').forEach(x=>x.classList.toggle('on',x===b));draw()});
+ $('#mix').onclick=()=>{list=shuffle(list);draw()};
+}
+
+/* ---------- Navigation ---------- */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go],[data-learn],[data-practice],[data-task],[data-res]');if(!b||b.disabled)return;
+ const d=b.dataset;if(d.go==='home')home();else if(d.go==='gloss')gloss();else if(d.learn)learn(d.learn);else if(d.practice)practice(d.practice);
+ else if(d.res)result(d.res);else if(d.task){const[a,i]=d.task.split(':');practice(a,+i)}});
+home();
+</script>
+</body>
+</html>
